@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlackJack by Jacob Bradley</title>
+    <meta name="author" content="Jacob Bradley">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="start">
+
+    <div class="startmenu">
+        <h1>Welcome To BlackJack</h1>
+        <p>If you are unsure of the rules of BlackJack please read on. In blackjack, you start with two cards, and the dealer also gets two, with one face-up and one face-down. The goal is to get as close to 21 as possible without going over. Number cards are worth their face value, face cards (J, Q, K) are worth 10, and Aces can be either 1 or 11. You can choose to hit to take another card or stand to keep your current hand. If your total goes over 21, you lose. The dealer must hit until they reach 17 or higher. If your total is higher than the dealer’s without busting, you win, but if both hands have the same total, it’s a tie.</p>
+        <div class="startcont">
+            <p>Please note refreshing the page during your round will end the round and you will be brought back here.</p>
+            <button onclick="StartGame()">Start</button>
+        </div>
+    </div>
+    
+
+    <div class="gamepage" style="display: none;">
+        <div class="gamecont">
+            <div class="dealer">
+                <h1 class="title">Dealer</h1>
+                <div id="d1" class="cardslot"></div>
+                <div id="d2" class="cardslot"></div>
+            </div>
+            <div class="player">
+                <p id="results">0</p>
+                <div id="p1" class="cardslot"></div>
+                <div id="p2" class="cardslot"></div>
+            </div>
+            <div class="buttons">
+                <button onclick="Hit()">Hit</button>
+                <button onclick="Stand()">Stand</button>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>
