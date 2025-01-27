@@ -26,6 +26,24 @@ async function DrawCards(deckId, count) {
     }));
 }
 
+function CheckScore(){
+    if (playerScore > 21){
+        playerScore = "Bust!";
+        setTimeout(()=>{
+            EndGame();
+        }, 3000);
+    }
+}
+
+function EndGame() {
+    const body = document.querySelector('body');
+    const imgs = document.querySelectorAll('img');
+    playerScore = 0;
+    playerCards = [];
+    imgs.forEach((img) => img.remove());
+    setTimeout(() => { StartGame(); }, 2000);
+}
+
 function getCardValue(card, currentScore) {
     if (isNaN(playerScore)) {
         playerScore = 0;
@@ -81,7 +99,7 @@ function ShowPlayerCards(cards) {
         }
         cardSlot.appendChild(img);
         playerScore += getCardValue(card, playerScore);
-
+        CheckScore();
 
     });
     scoreEl.textContent = playerScore;
@@ -109,13 +127,12 @@ function ShowFirstDealerCards(cards) {
 function Hit(){
     DrawCards(deckId, 1).then(card => {
         ShowPlayerCards(card);
-        playerScore += getCardValue(card, playerScore);
         scoreEl.textContent = playerScore;
     });
 }
 
 function Stand(){
-
+    //play dealers cards
 }
 
 //keep track of score of both cards

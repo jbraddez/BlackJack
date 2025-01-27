@@ -148,12 +148,15 @@ button:hover {
 
 .buttons button {
     padding: 10px 20px;
+    width: 30%;
     font-size: 18px;
     background-color: #c29f56;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: center;
+    min-width: min-content;
 }
 
 .buttons button:hover {
@@ -162,9 +165,8 @@ button:hover {
 
 #results {
     position: absolute;
-    top: -0;
-    left: 50%;
-    transform: translate(-50%,-50px);
+    width: 100%;
+    bottom: 2.5%;
     font-size: 1.5rem;
     text-align: center;
     color: #fefefe;
