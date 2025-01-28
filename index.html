@@ -6,6 +6,7 @@
     <title>BlackJack by Jacob Bradley</title>
     <meta name="author" content="Jacob Bradley">
     <link rel="stylesheet" href="style.css">
+    <link rel="website icon" href="https://cdn.pixabay.com/photo/2013/04/01/08/26/cards-98382_1280.png">
 </head>
 <body class="start">
 
@@ -25,6 +26,7 @@
                 <h1 class="title">Dealer</h1>
                 <div id="d1" class="cardslot"></div>
                 <div id="d2" class="cardslot"></div>
+                <p id="d-results">0</p>
             </div>
             <div class="player">
                 <div id="p1" class="cardslot"></div>
@@ -35,6 +37,7 @@
                 <button id="hit" onclick="Hit()">Hit</button>
                 <button id="stand" onclick="Stand()">Stand</button>
             </div>
+            <h1 id="endgame-result"></h1>
         </div>
     </div>
 

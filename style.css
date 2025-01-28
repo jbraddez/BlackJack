@@ -67,6 +67,19 @@ button:hover {
 
 /* Game Area Styles */
 
+#endgame-result{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    background: #4e3524;
+    border: 3px solid #c29f56;
+    padding: 10px;
+    border-radius: 13px;
+    display: none;
+}
+
 .gamearea {
     width: 100vw;
     height: 100vh;
@@ -163,13 +176,17 @@ button:hover {
     background-color: #e3b04b;
 }
 
-#results {
+#results, #d-results {
     position: absolute;
     width: 100%;
     bottom: 2.5%;
     font-size: 1.5rem;
     text-align: center;
     color: #fefefe;
+}
+
+#d-results{
+    bottom: -25%;
 }
 
 .title{
@@ -194,5 +211,9 @@ button:hover {
 
     .buttons button {
         font-size: 16px;
+    }
+
+    #results{
+        font-size: 1.3rem;
     }
 }

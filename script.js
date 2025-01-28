@@ -7,9 +7,11 @@ let playerScore = 0;
 let dealerScore = 0;
 let deckId = "";
 const scoreEl = document.getElementById('results');
+const dScoreEl = document.getElementById('d-results');
 let playerCards = [];
 let dealerCards = [];
 let canHit = false;
+const endResult = document.getElementById('endgame-result');
 
 async function GetDeck() {
     const response = await fetch("https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=6");
@@ -30,12 +32,8 @@ async function DrawCards(deckId, count) {
 }
 
 function CheckScore(){
-    
     if (playerScore > 21){
-        playerScore = "Bust!";
-        setTimeout(()=>{
-            EndGame();
-        }, 3000);
+        EndGame();
     }else if(playerScore == 21){
         //stand if blackjack
         Stand();
@@ -49,13 +47,35 @@ function CheckScore(){
 
 //REMEMBER TO RESET ALL
 function EndGame() {
-    const imgs = document.querySelectorAll('img');
-    playerScore = 0;
-    dealerScore = 0;
+    if(dealerScore <= 21 && playerScore <= 21){
+        if(playerScore == dealerScore){
+            endResult.textContent = `Draw!`;
+        }else if(playerScore != 21 && dealerScore == 21){
+            endResult.textContent = `Dealer Got Blackjack!`;
+        }else if(dealerScore < playerScore){
+            endResult.textContent = `You Win!`;
+        }else if(dealerScore > playerScore){
+            endResult.textContent = `Dealer Wins!`;
+        }
+    }else{
+        if (playerScore > 21){
+            endResult.textContent = "Your Bust!";
+        }else if(dealerScore > 21){
+            endResult.textContent = "Dealer Bust!";
+        }else{
+            endResult.textContent = "Something went wrong!";
+        }
+    }
+    setTimeout(() =>{
+        const imgs = document.querySelectorAll('img');
     dealerCards = [];
     playerCards = [];
-    setTimeout(() => { StartGame(); }, 1500);
+    endResult.style.display = "block";
+    playerScore = 0;
+    dealerScore = 0;
+    setTimeout(() => { StartGame(); }, 2500);
     imgs.forEach((img) => img.remove());
+    }, 2000);
 }
 
 function getCardValue(card, currentScore) {
@@ -78,6 +98,7 @@ function getCardValue(card, currentScore) {
 }
 
 function StartGame() {
+    endResult.style.display = "none";
     const body = document.querySelector('body');
     const startMenu = document.querySelector('.startmenu');
     const gamePage = document.querySelector('.gamepage');
@@ -93,8 +114,8 @@ function StartGame() {
             ShowPlayerCards(cards);
         });
         //dealers draw
-        DrawCards(deckId, 1).then(card => {
-            ShowFirstDealerCards(card);
+        DrawCards(deckId, 1).then(cards => {
+            ShowFirstDealerCards(cards);
         });
     });
 }
@@ -136,6 +157,8 @@ function ShowDealerCards(cards) {
         CheckScore();
 
     });
+    dScoreEl.textContent = dealerScore;
+
 }
 
 function ShowFirstDealerCards(cards) {
@@ -147,6 +170,7 @@ function ShowFirstDealerCards(cards) {
     cardSlot1.appendChild(img);
     dealerScore += getCardValue(cards[0], dealerScore);
     dealerCards.push(cards[0]);
+    dScoreEl.textContent = dealerScore;
 
     const cardSlot2 = document.getElementById('d2');
     const backCard = document.createElement('img');
@@ -167,19 +191,46 @@ function Hit(){
 }
 }
 
-function DealerPlay(){
-    if(dealerScore < 12){
-        DrawCards(deckId, 1).then(card => {
-            ShowDealerCards(card);
+function DealerHit(){
+    DrawCards(deckId, 1).then(card => {
+        ShowDealerCards(card);
+        dScoreEl.textContent = dealerScore;
+        setTimeout(()=>{
             DealerPlay();
-        });
+        },1500);
+    });
+}
+
+function DealerPlay(){
+    if(playerScore > dealerScore && dealerScore != 17){
+        DealerHit();
+    }else if(dealerScore < 12){
+        DealerHit();
+    }else if(dealerScore < 14){
+        if(Math.floor(Math.random() * 2) == 0){
+            DealerHit();
+        }else{
+            EndGame();
+        }
+    }else if(dealerScore < 15){
+        if(Math.floor(Math.random() * 5) == 0){
+            DealerHit();
+        }else{
+            EndGame();
+        }
+    }else if(dealerScore < 17){
+        if(Math.floor(Math.random() * 6) == 0){
+            DealerHit();
+        }else{
+            EndGame();
+        }
+    }else if(dealerScore >= 17){
+        EndGame();
     }
 }
 
 function Stand(){
     //play dealers cards
-    // need dealer logic, e.g. stand on 17, less than 15 = 1/5 to hit, less than 13 = 1/3 to hit, less than 12 OR 11 or less = hit
-    // if more than 17 than 1/15 to hit
     canHit = false;
     DealerPlay();
     
